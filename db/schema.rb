@@ -14,39 +14,25 @@
 ActiveRecord::Schema.define(version: 20150813203822) do
 
   create_table "companionships", force: :cascade do |t|
-    t.integer "companion_one_id"
-    t.integer "companion_two_id"
   end
 
   create_table "families", force: :cascade do |t|
+    t.integer "companionship_id"
     t.string "surname"
   end
 
-  create_table "home_teachers", force: :cascade do |t|
-    t.string   "firstname"
-    t.string   "lastname"
-    t.integer  "companion_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "home_teaching_assignments", force: :cascade do |t|
-    t.integer "companionship_id"
-    t.integer "family_id"
-  end
-
   create_table "members", force: :cascade do |t|
+    t.integer  "family_id"
+    t.integer  "companionship_id" #used by "Member", class: "Companionship"
+
     t.string   "firstname"
     t.string   "lastname"
     t.string   "email"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "companion_id"
-    t.integer  "family_id"
     t.string   "gender"
     t.integer  "age"
-    t.integer  "companionship_id"
   end
 
 end

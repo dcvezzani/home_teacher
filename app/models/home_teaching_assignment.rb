@@ -1,4 +1,4 @@
 class HomeTeachingAssignment < ActiveRecord::Base
-  belongs_to :companionship
-  belongs_to :family
+  has_one :companionship
+  has_many :families
 end

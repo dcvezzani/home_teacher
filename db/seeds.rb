@@ -27,7 +27,35 @@ Member.find(7).update(type: "HomeTeacher")
 Member.find(12).update(type: "HomeTeacher")
 Member.find(16).update(type: "HomeTeacher")
 
-HomeTeacher.first.update(companion_id: HomeTeacher.second.id)
-HomeTeacher.second.update(companion_id: HomeTeacher.first.id)
-HomeTeacher.third.update(companion_id: HomeTeacher.fourth.id)
-HomeTeacher.fourth.update(companion_id: HomeTeacher.third.id)
+# works
+#
+comp_01 = Companionship.create
+comp_01.home_teachers << HomeTeacher.all[0..1]
+
+comp_02 = Companionship.create
+comp_02.home_teachers << HomeTeacher.all[2..3]
+
+# better
+#
+# create families
+family_01 = Family.new
+family_01.members << Member.all[0...4]
+
+family_02 = Family.new
+family_02.members << Member.all[4...9]
+
+family_03 = Family.new
+family_03.members << Member.all[9...11]
+
+family_04 = Family.new
+family_04.members << Member.all[11...16]
+
+[family_01, family_02, family_03, family_04].map(&:save!)
+
+comp_01.families << [family_01, family_02]
+comp_02.families << [family_03, family_04]
+
+[family_01, family_02, family_03, family_04].each do |f|
+  f.surname = f.members.first.lastname
+  f.save!
+end
